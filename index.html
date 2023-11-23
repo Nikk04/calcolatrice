@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calcolatrice</title>
+</head>
+<body>
+<p>Benvenuti su <span class="nikita">Calcolatrice di Nikita</span></p>
+<div class="center-calcolatrice">
+    <form name="form">
+        <input class="area" name="area" value="" placeholder="0">
+        <table id="calc">
+            <tr>
+                <td><input type="button" value="C" onclick="reset()"></td>
+                <td><input type="button" value="<" onclick="cancella();"></td>
+                <td><input type="button" value="/" onclick="dig('/');"></td>
+               <td><input type="button" value="x" onclick="dig('*');"></td>
+                <td><input type="button" value="√" onclick="radiceQuadrata();"></td>
+                <td><input type="button" value="x^y" onclick="potenza();"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="7" onclick="dig(7);"></td>
+                <td><input type="button" value="8" onclick="dig(8);"></td>
+                <td><input type="button" value="9" onclick="dig(9);"></td>
+                <td><input type="button" value="-" onclick="dig('-');"></td>
+                <td><input type="button" value="sin" onclick="sine();"></td>
+                <td><input type="button" value="cos" onclick="cosine();"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="4" onclick="dig(4);"></td>
+                <td><input type="button" value="5" onclick="dig(5);"></td>
+                <td><input type="button" value="6" onclick="dig(6);"></td>
+                <td><input type="button" value="+" onclick="dig('+');"></td>
+                <td><input type="button" value="tan" onclick="tangent();"></td>
+                <td><input type="button" value="log" onclick="logarithm();"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="1" onclick="dig(1);"></td>
+                <td><input type="button" value="2" onclick="dig(2);"></td>
+                <td><input type="button" value="3" onclick="dig(3);"></td>
+                <td rowspan="2"><input style="height:84px" type="button" value="=" onclick="somma();"></td>
+                <td><input type="button" value="x²" onclick="quadrato();"></td>
+                <td><input type="button" value="1/x" onclick="inverso();"></td>
+            </tr>
+            <tr>
+                <td><input type="button" value="0" onclick="dig(0);"></td>
+                <td><input type="button" value="00" onclick="dig('00');"></td>
+                <td><input type="button" value="," onclick="dig('.');"></td>
+                <td><input type="button" value="±" onclick="cambiaSegno();"></td>
+                <td><input type="button" value="π" onclick="pi();"></td>
+                <td><input type="button" value="e" onclick="euler();"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<style>
+ body {
+    background: linear-gradient(to bottom, #333, #666); 
+ 
+    border: 10px solid;
+    border-image: linear-gradient(grey, transparent);
+    border-image-slice: 1;
+}
+
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.center-calcolatrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#calc {
+   border: 2px solid;
+    border-image: linear-gradient(black, transparent);
+    border-image-slice: 1;
+    background-color: #333;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    text-align: center; 
+}
+
+#calc input[type="button"] {
+    width: 80px;
+    height: 80px;
+    font-size: 20px;
+    border: none;
+    background: linear-gradient(to bottom, #FFA500, #FF6347); 
+    color: black;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin: 10px; 
+}
+
+#calc input[type="button"]:hover {
+    background: linear-gradient(to bottom, #FF6347, #FF4500); */
+}
+
+.area {
+    width: 760px; 
+    height: 80px; 
+    text-align: right;
+    font-size: 20px;
+    border: 10px solid;
+    border-image: linear-gradient(black, transparent);
+    border-image-slice: 1;
+    background: #333;
+    color: white;
+    border-radius: 2px;
+    padding: 9px;
+}
+
+
+#calc input[type="button"]:active {
+    background: #FF4500; 
+}
+#calcolatrice {
+    border: 10px solid;
+    border-image: linear-gradient(white, transparent);
+    border-image-slice: 1;
+}
+
+
+    </style>
+<script>
+    let currentValue = '';
+    let operator = '';
+    let isResult = false;
+
+    function dig(n) {
+        if (isResult) {
+            currentValue = '';
+            isResult = false;
+        }
+        document.form.area.value = currentValue + n;
+        currentValue = document.form.area.value;
+    }
+
+    function somma() {
+        isResult = true;
+        const result = eval(currentValue);
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function reset() {
+        document.form.area.value = '';
+        currentValue = '';
+        isResult = false;
+    }
+
+    function cancella() {
+        const currentText = document.form.area.value;
+        document.form.area.value = currentText.substring(0, currentText.length - 1);
+        currentValue = document.form.area.value;
+    }
+
+    function radiceQuadrata() {
+        isResult = true;
+        const result = Math.sqrt(parseFloat(currentValue));
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function potenza() {
+        operator = 'potenza';
+        isResult = true;
+        currentValue = parseFloat(currentValue);
+        document.form.area.value = '';
+    }
+
+    function sine() {
+        isResult = true;
+        const result = Math.sin(parseFloat(currentValue));
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function cosine() {
+        isResult = true;
+        const result = Math.cos(parseFloat(currentValue));
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function tangent() {
+        isResult = true;
+        const result = Math.tan(parseFloat(currentValue));
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function logarithm() {
+        isResult = true;
+        const result = Math.log(parseFloat(currentValue));
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function quadrato() {
+        isResult = true;
+        const result = Math.pow(parseFloat(currentValue), 2);
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function inverso() {
+        isResult = true;
+        const result = 1 / parseFloat(currentValue);
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function cambiaSegno() {
+        isResult = true;
+        const result = -parseFloat(currentValue);
+        document.form.area.value = result;
+        currentValue = result;
+    }
+
+    function pi() {
+        isResult = true;
+        document.form.area.value = Math.PI;
+        currentValue = Math.PI;
+    }
+
+    function euler() {
+        isResult = true;
+        document.form.area.value = Math.E;
+        currentValue = Math.E;
+    }
+</script>
+
+</body>
+</html>
